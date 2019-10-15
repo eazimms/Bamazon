@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
 
   port: 3306, 
   user: 'root', 
-  password: '', 
+  password: 'R0senrot!', 
   database: "bamazon"
 }); 
 
@@ -32,27 +32,35 @@ function start() {
       checkInv();
     }
   })
+
+  
 }
 
 function checkInv() {
-  connection.query('SELECT * FROM products', function(error, res){
-    if (error) throw error; 
-    inquirer
-      .prompt([
-        {
-          name: 'choices', 
-          type: 'rawlist',
-          choices: function() {
-            var choiceArray = []; 
-            for (var i =0; i < res.length; i++) {
-              choiceArray.push(res[i].product_name + " " +  res[i].price + ' ' + 'Amount in stock: ' + res[i].stock_quantity);
-            }
+  connection.query('SELECT * FROM products', function (error, res) {
+    if (error) {
+      console.log('There was an error: ' + error)
+    }
 
-            ;
+    console.table(res);
+    choosePurchase();
 
-            return choiceArray; 
-          }
-        }
-      ]);
+    // var choiceArray = []; 
+            // for (var i =0; i < res.length; i++) {
+            //   choiceArray.push(res[i].item_id, res[i].product_name, res[i].price, res[i].stock_quantity);
+            // } 
+            // --Clearing this out, data looks better as a console.table than splitting with a for loop, also easier to code. Leaving it in for 
+            // later use. 
+    
   });
+
+  
 }
+
+
+
+
+    // 
+            
+
+  
