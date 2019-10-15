@@ -57,6 +57,40 @@ function checkInv() {
   
 }
 
+function choosePurchase() {
+  inquirer.prompt([
+    {
+      type: 'input', 
+      name: 'productChoice', 
+      message: 'Enter the ID of the item you would like to purchase!'
+    },
+    {
+      type: 'input', 
+      name: 'quantity', 
+      message: 'How many do you want?'
+    }
+  ]).then(function(answer) {
+    var items = praseInt(answer.productChoice); 
+    var numOf = answer.quantity; 
+    connection.query('SELECT * FROM products WHERE item_id =${item}', function (error, res){
+      if(error) {
+        console.log('There was an error' + error.stack); 
+        return; 
+      }
+      else products = res[0]; 
+      if(products.stock_quantity > numOf) {
+        console.log('We have those in stock!')
+      } 
+      else {
+        console.log('Sorry, we don/t have that many ins stock.'); 
+      }
+
+
+
+    })
+  })
+}
+
 
 
 
