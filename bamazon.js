@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
 
   port: 3306, 
   user: 'root', 
-  password: 'R0senrot!', 
+  password: '', 
   database: "bamazon"
 }); 
 
@@ -83,6 +83,20 @@ function choosePurchase() {
       else products = res[0]; 
       if(products.stock_quantity > numOf) {
         console.log('We have those in stock!')
+        checkOut(); 
+
+        function checkOut() {
+          var newQuantity = products.stock_quantity - numOf; 
+          var total = numOf * products.price; 
+        
+          connection.query(`UPDATE products SET stock_quantity = ${newQuantity} WHERE item_id = ${items}`, function(err, res){
+            if (err) {
+              console.log(err);
+            }
+            else console.log(`Your total is: $${total}`); 
+            checkInv(); 
+          }); 
+        }
       } 
       else {
         console.log("Sorry, we don't have that many in stock."); 
@@ -91,14 +105,19 @@ function choosePurchase() {
 
 
 
-    })
-  })
+    });
+  });
 }
 
 
 
 
-    // 
+
+
+
+
+
+
             
 
   
