@@ -70,9 +70,9 @@ function choosePurchase() {
       message: 'How many do you want?'
     }
   ]).then(function(answer) {
-    var items = praseInt(answer.productChoice); 
+    var items = parseInt(answer.productChoice); 
     var numOf = answer.quantity; 
-    connection.query('SELECT * FROM products WHERE item_id =${item}', function (error, res){
+    connection.query(`SELECT * FROM products WHERE item_id = ${items}`, function (error, res){
       if(error) {
         console.log('There was an error' + error.stack); 
         return; 
