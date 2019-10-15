@@ -2,6 +2,7 @@ var mysql = require('mysql');
 var inquirer = require('inquirer');
 
 var connection = mysql.createConnection({
+  // Connection setup for mysql
 
   port: 3306, 
   user: 'root', 
@@ -16,26 +17,26 @@ connection.connect((error)=>{
   }; 
   console.log('Connected as' + connection.threadId);
 
-  start();
+  checkInv();
   
 });
 
-function start() {
-  inquirer.prompt({
-    name: 'BamazonMain',
-    type: 'list',
-    choices: ['Check Inventory', 'Buy', 'Checkout']
+// function start() {
+//   inquirer.prompt({
+//     name: 'BamazonMain',
+//     type: 'list',
+//     choices: ['Check Inventory', 'Buy', 'Checkout']
 
-  })
-  .then(function(answer){
-    if (answer.BamazonMain === 'Check Inventory') {
-      checkInv();
-    }
-  })
+//   })
+//   .then(function(answer){
+//     if (answer.BamazonMain === 'Check Inventory') {
+//       checkInv();
+//     }
+//   })
 
   
-}
-
+// }
+// Check the inventory of the items in stock. 
 function checkInv() {
   connection.query('SELECT * FROM products', function (error, res) {
     if (error) {
@@ -56,6 +57,8 @@ function checkInv() {
 
   
 }
+
+// Making a purchase, 
 
 function choosePurchase() {
   inquirer.prompt([
@@ -82,7 +85,8 @@ function choosePurchase() {
         console.log('We have those in stock!')
       } 
       else {
-        console.log('Sorry, we don/t have that many ins stock.'); 
+        console.log("Sorry, we don't have that many in stock."); 
+        checkInv(); 
       }
 
 
